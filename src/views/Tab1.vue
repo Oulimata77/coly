@@ -19,8 +19,9 @@
        <ion-label>
 {{ocean.name}} qui se trouve à {{ocean.lieu}} étendu de
  {{ocean.superficie}} Km² </ion-label>
-<ion-button class="danger" @click.prevent="deleteOcean(ocean.id)"> Delete {{ocean.name}}</ion-button>
+<ion-button class="danger" @click.prevent="deleteOcean(ocean.id)"> Delete {{ocean.name}}</ion-button><ion-button class="danger" @click.prevent="onUpdateForm(ocean.event)"> Modifier {{ocean.name}}</ion-button>
  </ion-item>
+
 </ion-list>
     </ion-content>
   </ion-page>
@@ -63,7 +64,18 @@ export default  {
             console.error(error);
         })
       }
-    }
+    },
+    onUpdateForm(event) {
+                event.preventDefault()
+                db.collection('ocean').doc(this.$route.params.id)
+                .update(this.ocean).then(() => {
+                    console.log("ocean successfully updated!");
+                    this.$router.push("/")
+                }).catch((error) => {
+                    console.log(error);
+                });
+            }
+
   }
 }
 </script>
